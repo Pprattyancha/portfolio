@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://portfolio-3zgs.onrender.com";
+const BASE_URL = "https://portfolio-3zgs.onrender.com/api";
 
 export const apiRequest = async (endpoint, method = "GET", data = null) => {
     try {

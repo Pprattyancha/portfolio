@@ -1,6 +1,6 @@
 import os
 import mysql.connector
-
+from fastapi import HTTPException
 def get_db():
     return mysql.connector.connect(
         host=os.getenv("DB_HOST"),
