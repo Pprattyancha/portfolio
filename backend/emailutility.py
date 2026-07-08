@@ -1,59 +1,44 @@
 import smtplib
 from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
-# ⚠️ Replace with your credentials
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
+
 SENDER_EMAIL = "prattyancha009@gmail.com"
-SENDER_PASSWORD = "xgzpmdeurjfeposi"   # Use App Password (not normal password)
-RECEIVER_EMAIL = "prattyancha26@gmail.com" # Where you want to receive emails
+SENDER_PASSWORD = "xgzpmdeurjfeposi"
 
-
-def format_email_body(data_dict: dict) -> str:
-    return "\n".join([f"{key.capitalize()}: {value}" for key, value in data_dict.items()])
+RECEIVER_EMAIL = "prattyancha26@gmail.com"
 
 
 def send_email(subject: str, data_dict: dict):
     try:
-        sender_email = "your_email@gmail.com"
-        receiver_email = data_dict.get("email")
+        print("📧 Starting email send...")
 
-        message = f"""
-        Subject: {subject}
-
-        Name: {data_dict.get("name")}
-        Email: {receiver_email}
-        Message: {data_dict.get("message")}
+        # ✅ Prepare email content
+        body = f"""
+Name: {data_dict.get("name")}
+Email: {data_dict.get("email")}
+Message: {data_dict.get("message")}
         """
 
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls()
-        server.login(sender_email, "your_app_password")
+        msg = MIMEText(body)
+        msg["Subject"] = subject
+        msg["From"] = SENDER_EMAIL
+        msg["To"] = RECEIVER_EMAIL
 
-        server.sendmail(sender_email, sender_email, message)  # send to yourself
+        # ✅ Connect to SMTP server
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=10)
+        server.starttls()
+
+        print("🔐 Logging in...")
+        server.login(SENDER_EMAIL, SENDER_PASSWORD)
+
+        print("📤 Sending email...")
+        server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
+
         server.quit()
 
-        # ✅ Success Response
-        return {
-            "statusCode": status.HTTP_200_OK,
-            "message": "Email sent successfully"
-        }
-
-    except smtplib.SMTPAuthenticationError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Email authentication failed. Check credentials."
-        )
-
-    except smtplib.SMTPException as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"SMTP error occurred: {str(e)}"
-        )
+        print("✅ Email sent successfully")
 
     except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Something went wrong: {str(e)}"
-        )
+        print("❌ EMAIL ERROR:", str(e))
