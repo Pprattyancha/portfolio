@@ -9,14 +9,8 @@ router = APIRouter(prefix="/api")
 
 # ---------------------- CONTACT ----------------------
 @router.post("/add-contact")
-def create_contact(
-    data: ContactCreate,
-    background_tasks: BackgroundTasks,
-    db=Depends(get_db)
-):
+def create_contact(data: ContactCreate, db=Depends(get_db)):
     try:
-        print("➡️ Adding contact...")
-
         cursor = db.cursor()
 
         cursor.execute(
@@ -28,19 +22,14 @@ def create_contact(
         cursor.close()
         db.close()
 
-        # ✅ Send email in background (FAST API RESPONSE)
-        background_tasks.add_task(
-            send_email,
-            "New Contact Request",
-            data.dict()
-        )
+        # 🔥 DIRECT CALL (for debugging)
+        send_email("New Contact Request", data.dict())
 
         return {"message": "Contact submitted successfully"}
 
     except Exception as e:
-        print("❌ ERROR CONTACT:", str(e))
+        print("❌ ERROR:", str(e))
         return {"error": str(e)}
-
 
 @router.get("/contact")
 def get_contacts(db=Depends(get_db)):
