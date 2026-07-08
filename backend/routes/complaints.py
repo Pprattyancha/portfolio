@@ -18,16 +18,14 @@ def create_contact(data: ContactCreate, db=Depends(get_db)):
         )
         db.commit()
 
-        # Convert full request → dict
-        data_dict = data.dict()  # use data.model_dump() if Pydantic v2
-
-        # Send email
-        send_email("New Contact Request", data_dict)
+        send_email("New Contact Request", data.dict())
 
         return {"message": "Contact submitted successfully"}
 
     except Exception as e:
+        print("ERROR CONTACT:", str(e))  # 👈 IMPORTANT for debugging
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.get("/contact")
 def get_contacts(db=Depends(get_db)):
@@ -59,6 +57,7 @@ def hire_me(data: HireCreate, db=Depends(get_db)):
         return {"message": "Hire request submitted successfully"}
 
     except Exception as e:
+        print("ERROR HIRE:", str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -92,6 +91,7 @@ def create_review(data: ReviewCreate, db=Depends(get_db)):
         return {"message": "Review added successfully"}
 
     except Exception as e:
+        print("ERROR REVIEW:", str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -142,6 +142,7 @@ def add_experience(data: ExperienceCreate, db=Depends(get_db)):
         return {"message": "Experience added successfully"}
 
     except Exception as e:
+        print("ERROR EXPERIENCE:", str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
 
