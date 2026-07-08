@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 587
+SMTP_PORT = 465  # ✅ SSL port (IMPORTANT)
 
 SENDER_EMAIL = "prattyancha009@gmail.com"
 SENDER_PASSWORD = "xgzpmdeurjfeposi"
@@ -14,7 +14,6 @@ def send_email(subject: str, data_dict: dict):
     try:
         print("📧 Starting email send...")
 
-        # ✅ Prepare email content
         body = f"""
 Name: {data_dict.get("name")}
 Email: {data_dict.get("email")}
@@ -26,9 +25,10 @@ Message: {data_dict.get("message")}
         msg["From"] = SENDER_EMAIL
         msg["To"] = RECEIVER_EMAIL
 
-        # ✅ Connect to SMTP server
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=10)
-        server.starttls()
+        print("🔐 Connecting to SMTP SSL...")
+
+        # ✅ Use SSL instead of TLS
+        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=10)
 
         print("🔐 Logging in...")
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
