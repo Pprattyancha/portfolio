@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+}
+
+.glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* for Safari */
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),   /* main shadow */
+    inset 0 1px 0 rgba(255, 255, 255, 0.6); /* light inner glow */
+}
+
+.css-zanzjh-MuiPaper-root-MuiAppBar-root {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 🔥 important part */
+.css-zanzjh-MuiPaper-root-MuiAppBar-root * {
+  color: #000 !important;
+}
+
+/* icons specifically */
+.css-zanzjh-MuiPaper-root-MuiAppBar-root svg {
+  color: #000 !important;
+  fill: #000 !important;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}
+
+.section {
+  padding: 60px 0;
+}
+
+.portfolio-logo {
+  font-size: 28px;
+  font-weight: bolder;
+  letter-spacing: 1px;
+  cursor: pointer;
+
+  color: #111; /* dark text for white background */
+
+  /* subtle glow for glass feel */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  transition: all 0.3s ease;
+}
+
+/* highlight second P */
+.portfolio-logo span {
+  color:#281ecf !important; /* accent color */
+  text-shadow: 0 2px 10px rgba(108, 99, 255, 0.4);
+}
+
+/* hover effect */
+.portfolio-logo:hover {
+  transform: scale(1.05);
+  color: #000;
+}
+
+.portfolio-logo:hover span {
+  color: #4b47d1;
+}
