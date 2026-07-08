@@ -5,7 +5,7 @@ SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465  # ✅ SSL port (IMPORTANT)
 
 SENDER_EMAIL = "prattyancha009@gmail.com"
-SENDER_PASSWORD = "xgzpmdeurjfeposi"
+SENDER_PASSWORD = "dkfpvphyqjatwdxv"
 
 RECEIVER_EMAIL = "prattyancha26@gmail.com"
 
