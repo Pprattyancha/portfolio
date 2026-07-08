@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, BackgroundTasks
 from database import get_db
 from models import ContactCreate, HireCreate, ReviewCreate, ExperienceCreate
 import json
@@ -9,7 +9,11 @@ router = APIRouter(prefix="/api")
 
 # ---------------------- CONTACT ----------------------
 @router.post("/add-contact")
-def create_contact(data: ContactCreate, db=Depends(get_db)):
+def create_contact(
+    data: ContactCreate,
+    background_tasks: BackgroundTasks,
+    db=Depends(get_db)
+):
     try:
         print("➡️ Adding contact...")
 
@@ -24,10 +28,12 @@ def create_contact(data: ContactCreate, db=Depends(get_db)):
         cursor.close()
         db.close()
 
-        try:
-            send_email("New Contact Request", data.dict())
-        except Exception as e:
-            print("Email failed:", e)
+        # ✅ Send email in background (FAST API RESPONSE)
+        background_tasks.add_task(
+            send_email,
+            "New Contact Request",
+            data.dict()
+        )
 
         return {"message": "Contact submitted successfully"}
 
@@ -55,7 +61,11 @@ def get_contacts(db=Depends(get_db)):
 
 # ---------------------- HIRE ----------------------
 @router.post("/add-hire")
-def hire_me(data: HireCreate, db=Depends(get_db)):
+def hire_me(
+    data: HireCreate,
+    background_tasks: BackgroundTasks,
+    db=Depends(get_db)
+):
     try:
         cursor = db.cursor()
 
@@ -68,13 +78,12 @@ def hire_me(data: HireCreate, db=Depends(get_db)):
         cursor.close()
         db.close()
 
-        try:
-            send_email(
-                "New Hire Request",
-                f"Name: {data.name}\nEmail: {data.email}\nProject: {data.project_details}\nBudget: {data.budget}",
-            )
-        except Exception as e:
-            print("Email failed:", e)
+        # ✅ Background email
+        background_tasks.add_task(
+            send_email,
+            "New Hire Request",
+            f"Name: {data.name}\nEmail: {data.email}\nProject: {data.project_details}\nBudget: {data.budget}"
+        )
 
         return {"message": "Hire request submitted successfully"}
 
@@ -102,7 +111,11 @@ def get_hire_requests(db=Depends(get_db)):
 
 # ---------------------- REVIEWS ----------------------
 @router.post("/add-review")
-def create_review(data: ReviewCreate, db=Depends(get_db)):
+def create_review(
+    data: ReviewCreate,
+    background_tasks: BackgroundTasks,
+    db=Depends(get_db)
+):
     try:
         cursor = db.cursor()
 
@@ -115,13 +128,12 @@ def create_review(data: ReviewCreate, db=Depends(get_db)):
         cursor.close()
         db.close()
 
-        try:
-            send_email(
-                "New Review",
-                f"Name: {data.name}\nRating: {data.rating}\nComment: {data.comment}",
-            )
-        except Exception as e:
-            print("Email failed:", e)
+        # ✅ Background email
+        background_tasks.add_task(
+            send_email,
+            "New Review",
+            f"Name: {data.name}\nRating: {data.rating}\nComment: {data.comment}"
+        )
 
         return {"message": "Review added successfully"}
 
