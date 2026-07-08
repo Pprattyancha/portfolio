@@ -1,44 +1,31 @@
-import smtplib
-from email.mime.text import MIMEText
+import requests
 
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 465  # ✅ SSL port (IMPORTANT)
-
-SENDER_EMAIL = "prattyancha009@gmail.com"
-SENDER_PASSWORD = "dkfpvphyqjatwdxv"
-
-RECEIVER_EMAIL = "prattyancha26@gmail.com"
-
+RESEND_API_KEY = "re_KqCRAFvM_Cif8isBTvhn7GkLdMEjivdEc"
 
 def send_email(subject: str, data_dict: dict):
     try:
-        print("📧 Starting email send...")
+        print("📧 Sending via Resend...")
 
-        body = f"""
-Name: {data_dict.get("name")}
-Email: {data_dict.get("email")}
-Message: {data_dict.get("message")}
-        """
+        response = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {RESEND_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "from": "onboarding@resend.dev",
+                "to": ["prattyancha26@gmail.com"],
+                "subject": subject,
+                "html": f"""
+                <h3>New Contact Request</h3>
+                <p><b>Name:</b> {data_dict.get("name")}</p>
+                <p><b>Email:</b> {data_dict.get("email")}</p>
+                <p><b>Message:</b> {data_dict.get("message")}</p>
+                """,
+            },
+        )
 
-        msg = MIMEText(body)
-        msg["Subject"] = subject
-        msg["From"] = SENDER_EMAIL
-        msg["To"] = RECEIVER_EMAIL
-
-        print("🔐 Connecting to SMTP SSL...")
-
-        # ✅ Use SSL instead of TLS
-        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=10)
-
-        print("🔐 Logging in...")
-        server.login(SENDER_EMAIL, SENDER_PASSWORD)
-
-        print("📤 Sending email...")
-        server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
-
-        server.quit()
-
-        print("✅ Email sent successfully")
+        print("📨 Response:", response.text)
 
     except Exception as e:
         print("❌ EMAIL ERROR:", str(e))
