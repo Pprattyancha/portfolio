@@ -2,11 +2,15 @@ import requests
 import os
 from dotenv import load_dotenv
 
-# ✅ Load .env file
 load_dotenv()
-API_KEY = os.getenv("RESEND_API_KEY")
+
+API_KEY = os.getenv("BREVO_API_KEY")
 
 def send_email(subject, data_dict):
+    if not API_KEY:
+        print("❌ Missing BREVO_API_KEY")
+        return
+
     url = "https://api.brevo.com/v3/smtp/email"
 
     headers = {
@@ -18,7 +22,7 @@ def send_email(subject, data_dict):
     data = {
         "sender": {
             "name": "Prattyancha",
-            "email": "no-reply@brevo.com"  # ✅ works without domain setup
+            "email": "no-reply@brevo.com"
         },
         "to": [
             {"email": "prattyancha009@gmail.com"}
@@ -34,5 +38,5 @@ def send_email(subject, data_dict):
 
     response = requests.post(url, headers=headers, json=data)
 
-    print("Status:", response.status_code)
-    print("Response:", response.text)
+    print("📨 Status:", response.status_code)
+    print("📨 Response:", response.text)
