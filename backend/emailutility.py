@@ -1,5 +1,9 @@
+from dotenv import load_dotenv
 import requests
 import os
+
+
+load_dotenv()  # ✅ THIS LINE IS MISSING
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")  # ✅ secure
 
