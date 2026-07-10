@@ -2,7 +2,7 @@ import requests
 import os
 
 # ✅ Get API key from environment variable (IMPORTANT)
-RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+RESEND_API_KEY = os.getenv("re_7M7vcYKc_8wp7CzrsE78DyG9X1iiWRAGb")
 
 
 def send_email(subject: str, data_dict: dict):
