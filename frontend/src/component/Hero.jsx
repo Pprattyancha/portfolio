@@ -1,6 +1,8 @@
 import React from "react";
 import profileImg from '../Images/photo.jpeg'
 import { Box } from "@mui/material";
+import '../styles/glass.css';
+import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 const Hero = () => {
   return (
 
@@ -11,6 +13,16 @@ const Hero = () => {
         <p>Building scalable, data-driven applications and craft high-quality user experiences.
           <br />
           Focused on performance, clean architecture, and delivering products that truly scale.</p>
+        <br />
+        <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=prattyancha009@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bounce-btn"
+        >
+          <MailOutlineOutlinedIcon style={{ fontSize: "28px" }} />
+          <span>Lets Connect</span>
+        </a>
       </Box>
       <Box style={styles.imgWrapper}>
         <img
@@ -70,6 +82,19 @@ const styles = {
     padding: "10px 20px",
     border: "none",
     borderRadius: "8px",
+  },
+  button: {
+    mt: 5,
+    ml: 1,
+    borderRadius: "40px",
+    px: 3,
+    py: 1,
+    textTransform: "none",
+    fontWeight: 700,
+    background: "linear-gradient(90deg,#6366F1,#8B5CF6)",
+    "&:hover": {
+      background: "linear-gradient(90deg,#4F46E5,#7C3AED)",
+    },
   },
 };
 

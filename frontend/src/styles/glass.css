@@ -75,3 +75,43 @@ body {
 .portfolio-logo:hover span {
   color: #4b47d1;
 }
+.bounce-btn {
+  display: inline-flex;          /* 👈 important */
+  align-items: center;           /* 👈 vertical align */
+  justify-content: center;
+  gap: 8px;                      /* 👈 space between icon & text */
+
+  padding: 12px 22px;
+  background: linear-gradient(90deg, #6366F1, #8B5CF6);
+  color: #fff;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: bounce 2s infinite;
+}
+/* Hover effect */
+.bounce-btn:hover {
+  background: linear-gradient(90deg, #4F46E5, #7C3AED);
+  transform: scale(1.05);
+
+  /* 👇 Strong layered shadow (more depth) */
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.6),
+    0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Bounce animation */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}
